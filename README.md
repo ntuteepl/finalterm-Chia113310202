@@ -10,6 +10,7 @@
 
 範例1 : 輸入 100 20 10
              Alice 5 1
+             Alice 5 1
              Bob 4 2
              Cathy 3 3
              END
