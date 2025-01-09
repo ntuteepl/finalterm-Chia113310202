@@ -50,7 +50,8 @@ void Character::print()
 	else
 		cout << "0";
 
-	cout << "-" << this->power << "-" << this->knowledge << "-" << this->luck << "-" << this->mp << "\n";}
+	cout << "-" << this->power << "-" << this->knowledge << "-" << this->luck << "-" << this->mp << "\n";
+}
 
 class Warrior : public Character
 {
@@ -108,9 +109,9 @@ public:
     TimeTraveler(string n, int lv = 1) : Character(n, lv, lv * HP_LV, lv * PO_LV, lv * KN_LV, lv * LU_LV, lv * MP_LV) {}
 
     void print() override 
-	{
-        cout << "TimeTraveler ";
-        Character::print();
+    {
+	cout << "TimeTraveler ";
+	Character::print();
     }
 
     int getHP() override { return hp; }
@@ -118,73 +119,73 @@ public:
     int getAttack() override { return knowledge; }
 
     void beatMonster(int exp) override 
-	{
+    {
         this->exp += exp;
-        while (this->exp >= pow(this->level, 2) * EXP_LV)
+       	while (this->exp >= pow(this->level, 2) * EXP_LV)
             this->levelUp(HP_LV, PO_LV, KN_LV, LU_LV);
     }
     
-	// ®É¶¡¦^·¹
+	// æ™‚é–“å›æº¯
     void timeRewind(Character* team[], int count) 
-	{
+    {
     	static bool hasNotified = false;
     	if (mp >= 50) 
-		{
+	{
         	for (int i = 0; i < count; i++) 
-			{
-            	if (team[i]->getHP() > 0)
-                	team[i]->setHP(team[i]->getHP() + 30);
+		{
+            		if (team[i]->getHP() > 0)
+                		team[i]->setHP(team[i]->getHP() + 30);
        		}
         	mp -= 50;
-        	hasNotified = false; // ¦¨¥\¨Ï¥Î§Ş¯à
+        	hasNotified = false; // æˆåŠŸä½¿ç”¨æŠ€èƒ½
         	cout << name << " used Time Rewind! The team recovered HP.\n";
     	} 
-		else if (!hasNotified) 
-		{
-        	cout << name << " does not have enough MP for Time Rewind!\n";
-        	hasNotified = true; // ³]©w´£¿ô¤w¸gÅã¥Ü¹L
-    	}
-	}
-	
-    // ®É¶¡¥[³t
-    void timeAcceleration(Character* team[], int count) 
+	else if (!hasNotified) 
 	{
+                cout << name << " does not have enough MP for Time Rewind!\n";
+        	hasNotified = true; // è¨­å®šæé†’å·²ç¶“é¡¯ç¤ºé
+    	}
+    }
+	
+    // æ™‚é–“åŠ é€Ÿ
+    void timeAcceleration(Character* team[], int count) 
+    {
     	static bool hasNotified = false;
     	if (mp >= 30) 
-		{
+	{
         	cout << name << " used Time Acceleration! Team gains double EXP next round.\n";
         	for (int i = 0; i < count; i++) 
+		{
+            		if (team[i]->getHP() > 0) 
 			{
-            	if (team[i]->getHP() > 0) 
-				{
-                	team[i]->beatMonster(100); // ¨C¤HÀò±oÃB¥~¸gÅç­È
-            	}
+                		team[i]->beatMonster(100); // æ¯äººç²å¾—é¡å¤–ç¶“é©—å€¼
+            		}
         	}
         	mp -= 30;
-        	hasNotified = false; // ¦¨¥\¨Ï¥Î§Ş¯à
+        	hasNotified = false; // æˆåŠŸä½¿ç”¨æŠ€èƒ½
     	} 
-		else if (!hasNotified) 
-		{
-        	cout << name << " does not have enough MP for Time Acceleration!\n";
-        	hasNotified = true; // ³]©w´£¿ô¤w¸gÅã¥Ü¹L
-    	}
-	}
-    // ­áµ²®É¶¡
-    void timeStasis() 
+	else if (!hasNotified) 
 	{
+        	cout << name << " does not have enough MP for Time Acceleration!\n";
+        	hasNotified = true; // è¨­å®šæé†’å·²ç¶“é¡¯ç¤ºé
+    	}
+     }
+    // å‡çµæ™‚é–“
+    void timeStasis() 
+    {
     	static bool hasNotified = false;
     	if (mp >= 70) 
-		{
+	{
         	cout << name << " used Time Stasis! Monster skips its attack this round.\n";
         	mp -= 70;
-        	hasNotified = false; // ¦¨¥\¨Ï¥Î§Ş¯à
+        	hasNotified = false; // æˆåŠŸä½¿ç”¨æŠ€èƒ½
     	} 
-		else if (!hasNotified) 
-		{
+	else if (!hasNotified) 
+	{
         	cout << name << " does not have enough MP for Time Stasis!\n";
-        	hasNotified = true; // ³]©w´£¿ô¤w¸gÅã¥Ü¹L
+        	hasNotified = true; // è¨­å®šæé†’å·²ç¶“é¡¯ç¤ºé
     	}
-	}
+     }
 
 };
 
@@ -250,7 +251,7 @@ void Team::addWizard(string name, int lv)
 void Team::addTimeTraveler(string name, int lv) 
 {
     if (memberCount < 10) 
-	{
+    {
         member[memberCount] = new TimeTraveler(name, lv);
         memberCount++;
     }
@@ -277,19 +278,19 @@ void Team::print()
 void Team::combat(Monster* m)
 {
     while (true) 
-	{
-        // ©ÇÃ~§ğÀ»¬¡µÛªº¶¤­û
+    {
+        // æ€ªç¸æ”»æ“Šæ´»è‘—çš„éšŠå“¡
         int activeMembers = 0;
         for (int i = 0; i < this->memberCount; i++) 
-		{
+	{
             if (this->member[i]->getHP() > 0) 
-			{
+	    {
                 activeMembers++;
             }
         }
 
-        if (activeMembers == 0) // ¦pªG©Ò¦³¦¨­û³£¤w¦º¤`
-		{ 
+        if (activeMembers == 0) // å¦‚æœæ‰€æœ‰æˆå“¡éƒ½å·²æ­»äº¡
+	{ 
             cout << "Lose\n";
             m->print();
             return;
@@ -298,52 +299,52 @@ void Team::combat(Monster* m)
         int monsterAvgAtk = (m->getAttack() + m->getKnowledge()) / activeMembers;
 
         for (int i = 0; i < this->memberCount; i++) 
-		{
+	{
             if (this->member[i]->getHP() > 0) 
-			{
+	    {
                 int updatedHp = this->member[i]->getHP() - monsterAvgAtk;
                 this->member[i]->setHP(max(0, updatedHp));
             }
         }
 
-        // ®ÉªÅ®È¦æªÌ¨Ï¥Î§Ş¯à
+        // æ™‚ç©ºæ—…è¡Œè€…ä½¿ç”¨æŠ€èƒ½
         for (int i = 0; i < this->memberCount; i++) 
-		{
+	{
             if (dynamic_cast<TimeTraveler*>(this->member[i]) != nullptr) 
-			{
+	    {
                 auto tt = dynamic_cast<TimeTraveler*>(this->member[i]);
                 if (tt->getHP() > 0) 
-				{
-                    tt->timeRewind(member, memberCount); // ¨Ï¥Î Time Rewind «ì´_¶¤­ûªº HP
+		{
+                    tt->timeRewind(member, memberCount); // ä½¿ç”¨ Time Rewind æ¢å¾©éšŠå“¡çš„ HP
                     
-                    tt->timeAcceleration(member, memberCount); // ·s¼W®É¶¡¥[³t¥\¯à
+                    tt->timeAcceleration(member, memberCount); // æ–°å¢æ™‚é–“åŠ é€ŸåŠŸèƒ½
 
-                    tt->timeStasis(); // ·s¼W­áµ²®É¶¡¥\¯à
+                    tt->timeStasis(); // æ–°å¢å‡çµæ™‚é–“åŠŸèƒ½
                 }
             }
         }
 
-        // ¶¤¥î¦¨­û§ğÀ»©ÇÃ~
+        // éšŠä¼æˆå“¡æ”»æ“Šæ€ªç¸
         int sumAtk = 0;
         for (int i = 0; i < this->memberCount; i++) 
-		{
+	{
             if (this->member[i]->getHP() > 0) 
-			{
+	    {
                 sumAtk += this->member[i]->getAttack();
             }
         }
         m->setHP(m->getHP() - sumAtk);
 
-        if (m->getHP() <= 0) // ©ÇÃ~¦º¤`
-		{ 
+        if (m->getHP() <= 0) // æ€ªç¸æ­»äº¡
+	{ 
             cout << "Win\n";
             this->print();
             return;
         }
         for (int i = 0; i < this->memberCount; i++) 
-		{
+	{
             if (dynamic_cast<TimeTraveler*>(this->member[i]) != nullptr) 
-			{
+	    {
                 auto tt = dynamic_cast<TimeTraveler*>(this->member[i]);
             }
         }
@@ -355,7 +356,7 @@ int main()
 {
 	int mHP, mPower, mKnowledge;
 
-	cin >> mHP >> mPower >> mKnowledge; // ¿é¤J©ÇÃ~ªºHP¡Bpower¡Bknowledge
+	cin >> mHP >> mPower >> mKnowledge; // è¼¸å…¥æ€ªç¸çš„HPã€powerã€knowledge
 	Monster mon(mHP, mPower, mKnowledge);
 
         Team myTeam;
@@ -363,26 +364,25 @@ int main()
         int lv=0, role=0, memberCount=0;
 
        while (true) 
-	   {
+       {
     		cin >> name;
-        	if (name == "END") break; // ÃöÁä¦r "END" ªí¥Üµ²§ô¿é¤J
+        	if (name == "END") break; // é—œéµå­— "END" è¡¨ç¤ºçµæŸè¼¸å…¥
 
         	cin >> lv >> role;
         	if (role == 1) 
-			{
-            	myTeam.addWarrior(name, lv); // ¼W¥[¾Ô¤h
+		{
+            		myTeam.addWarrior(name, lv); // å¢åŠ æˆ°å£«
         	} 
-			else if (role == 2) 
-			{
-            	myTeam.addWizard(name, lv); // ¼W¥[§Å®v
+		else if (role == 2) 
+		{
+            		myTeam.addWizard(name, lv); // å¢åŠ å·«å¸«
         	} 
-			else if (role == 3) 
-			{
-            	myTeam.addTimeTraveler(name, lv); // ¼W¥[®ÉªÅ®È¦æªÌ
+		else if (role == 3) 
+		{
+            		myTeam.addTimeTraveler(name, lv); // å¢åŠ æ™‚ç©ºæ—…è¡Œè€…
         	}
     	}
-        myTeam.combat(&mon); // ¶i¦æ¾Ô°«¨Ã¦C¦Lµ²ªG
+        myTeam.combat(&mon); // é€²è¡Œæˆ°é¬¥ä¸¦åˆ—å°çµæœ
 
-        return 0;
-		
+        return 0;	
 }
